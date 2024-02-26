@@ -11,7 +11,7 @@ def test():
     body = request.json
     print(body)
 
-    data = body[data].split('\n')
+    data = body['data'].split('\n')
     print(data)
 
     return jsonify({"message": "Data received"}), 200
