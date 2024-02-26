@@ -6,7 +6,7 @@ app = Flask(__name__)
 def home():
     return 'hello world!'
 
-@app.route('/test')
+@app.route('/test', methods=['POST'])
 def test():
     print(request.json())
 
