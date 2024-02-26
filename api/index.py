@@ -8,7 +8,7 @@ def home():
 
 @app.route('/test', methods=['POST'])
 def test():
-    print(request.json())
+    print(request.json)
 
     return jsonify({"message": "Data received"}), 200
 
