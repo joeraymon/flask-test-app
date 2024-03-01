@@ -5,7 +5,7 @@ import requests
 app = Flask(__name__)
 
 NOTION_SECRET = os.getenv('NOTION_SECRET')
-DATABASE_ID = "a003f6b477814191b2e53c428cb4c3e5"
+DATABASE_ID = "a34aa54c4b9d4780ae41a5864ea6845f"
 
 url = "https://api.notion.com/v1/pages"
 
