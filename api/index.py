@@ -1,6 +1,8 @@
 import os
 from flask import Flask, request, jsonify
 import requests
+from datetime import datetime
+
 
 app = Flask(__name__)
 
@@ -27,6 +29,10 @@ def test():
     data = body['data'].split('\n')
     print(data)
 
+    # Current time, for example, but you can format any datetime object
+    now = datetime.now()
+    formatted_date = now.strftime('%Y-%m-%dT%H:%M')
+
     for item in data:
         payload = {
             "parent": { "database_id": DATABASE_ID},
@@ -38,9 +44,9 @@ def test():
                         }
                     }]
                 },
-                "Date": {
+                "Timestamp": {
                     "date": {
-                        "start": "2024-02-27"
+                        "start": formatted_date
                     }
                 },
             }
