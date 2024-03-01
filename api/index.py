@@ -45,7 +45,7 @@ def test():
         }
     }
 
-    response = requests.post(url, headers=headers, json=data)
+    response = requests.post(url, headers=headers, json=payload)
 
     print(response.status_code)
     print(response.text)
