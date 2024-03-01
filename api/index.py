@@ -27,28 +27,29 @@ def test():
     data = body['data'].split('\n')
     print(data)
 
-    payload = {
-        "parent": { "database_id": DATABASE_ID},
-        "properties": {
-            "Name": {
-                "title": [{
-                    "text": {
-                        "content": "test data"
+    for item in data:
+        payload = {
+            "parent": { "database_id": DATABASE_ID},
+            "properties": {
+                "Name": {
+                    "title": [{
+                        "text": {
+                            "content": item
+                        }
+                    }]
+                },
+                "Date": {
+                    "date": {
+                        "start": "2024-02-27"
                     }
-                }]
-            },
-            "Date": {
-                "date": {
-                    "start": "2024-02-27"
-                }
-            },
+                },
+            }
         }
-    }
 
-    response = requests.post(url, headers=headers, json=payload)
+        response = requests.post(url, headers=headers, json=payload)
 
-    print(response.status_code)
-    print(response.text)
+        print(response.status_code)
+        print(response.text)
 
     return jsonify({"message": "Data received"}), 200
 
