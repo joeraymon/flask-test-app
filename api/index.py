@@ -1,12 +1,22 @@
 import os
 from flask import Flask, request, jsonify
 from datetime import datetime
-from sqlalchemy import create_engine, text
+import pg8000
+import ssl
 
 app = Flask(__name__)
 
-db_url = os.getenv('POSTGRES_URL')
-engine = create_engine(db_url)
+ssl_context = ssl.create_default_context()
+ssl_context.check_hostname = False  # Disable hostname checking if needed
+ssl_context.verify_mode = ssl.CERT_NONE  # Adjust verification mode as needed
+
+conn = pg8000.connect(
+    host=os.getenv('POSTGRES_HOST'),
+    database=os.getenv('POSTGRES_DATABASE'),
+    user=os.getenv('POSTGRES_USER'),
+    password=os.getenv('POSTGRES_PASSWORD'),
+    ssl_context=ssl_context
+)
 
 @app.route('/')
 def home():
@@ -17,7 +27,8 @@ def test():
     body = request.json
     data = body['data'].split('\n')
 
-    engine.execute("""
+    cur = conn.cursor()
+    cur.execute("""
         CREATE TABLE IF NOT EXISTS items (
             id SERIAL PRIMARY KEY,
             name TEXT,
@@ -26,9 +37,9 @@ def test():
     """)
 
     for item in data:
-        engine.execute(
-            text("INSERT INTO items (name, timestamp) VALUES (:name, :timestamp)"),
-            {"name": item, "timestamp": datetime.now()}
+        cur.execute(
+            "INSERT INTO items (name, timestamp) VALUES (%s, %s)",
+            (item, datetime.now())
         )
 
     return jsonify({"message": "Data received and stored in PostgreSQL"}), 200
