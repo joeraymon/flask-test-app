@@ -42,6 +42,10 @@ def test():
             (item, datetime.now())
         )
 
+    conn.commit()
+    cur.close()
+    conn.close()
+
     return jsonify({"message": "Data received and stored in PostgreSQL"}), 200
 
 if __name__ == '__main__':
