@@ -1,4 +1,4 @@
 Flask==3.0.0
 python-dateutil  # datetime
 sqlalchemy>=1.4.46
-psycopg2-binary
+pg8000
